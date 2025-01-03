@@ -156,7 +156,12 @@ export function getPlatform(userAgent: string): 'mobile' | 'desktop' {
   let platform = 'desktop';
   if (system === 'windows' || system === 'macos' || system === 'linux') {
     platform = 'desktop';
-  } else if (system === 'android' || system === 'ios' || system === 'openharmony' || testUa(/mobile/g)) {
+  } else if (
+    system === 'android' ||
+    system === 'ios' ||
+    system === 'openharmony' ||
+    testUa(/mobile/g)
+  ) {
     platform = 'mobile';
   }
 
@@ -616,7 +621,7 @@ async function replaceDomainInFile(
     newDomainWithScheme += '/';
   }
 
-  await fs.writeFile(filePath, updatedContent, 'utf8');
+  await writeFileWithLock(filePath, updatedContent);
 }
 
 async function _updateLinuxMirror(
